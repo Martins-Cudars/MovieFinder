@@ -14,7 +14,18 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    '~assets/scss/main.scss'
   ],
+
+  /*
+  ** SCSS mixins globaly for components
+  ** (never include actual styles here as they would be included for each component)
+  */
+  styleResources: {
+    scss: [
+      '~assets/scss/settings/_index.scss'
+    ]
+  },
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
@@ -26,8 +37,18 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/google-fonts',
     '@nuxtjs/eslint-module'
   ],
+
+  googleFonts: {
+    families: {
+      'Open+Sans': {
+        wght: [300, 400, 600, 700],
+        ital: [300, 400, 600, 700]
+      }
+    }
+  },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
@@ -40,5 +61,5 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-  }
+  },
 }
