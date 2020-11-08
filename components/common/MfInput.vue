@@ -1,5 +1,5 @@
 <template>
   <div>
-    <Nuxt></Nuxt>
+    <input type="text">
   </div>
 </template>
