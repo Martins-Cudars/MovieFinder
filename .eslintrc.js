@@ -14,5 +14,15 @@ module.exports = {
   plugins: [
   ],
   // add your custom rules here
-  rules: {}
+  rules: {
+    'vue/html-self-closing': ['error', {
+      html: {
+        void: 'never',
+        normal: 'never',
+        component: 'never'
+      },
+      svg: 'always',
+      math: 'always'
+    }]
+  }
 }
