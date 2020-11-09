@@ -1,9 +1,12 @@
 <template>
   <div>
     <h1>Results</h1>
-    <pre v-if="resultsLoaded">
-      {{ results }}
-    </pre>
+    <div v-if="resultsLoaded">
+      <!-- <pre>
+        {{ results }}
+      </pre> -->
+      <movie-slider :slides="results" @beforeChange="beforeChange"></movie-slider>
+    </div>
     <mf-loader v-else></mf-loader>
   </div>
 </template>
@@ -21,14 +24,19 @@ export default {
   },
   mounted () {
     const searchTitle = this.$route.query.title
-    // eslint-disable-next-line no-console
-    console.log(`searching for ${searchTitle}`)
-    this.findMovieByTitle(searchTitle)
+    this.getMoviesListByTitle(searchTitle)
+      .then(() => {
+        this.getMovieById(this.results[0].imdbID)
+      })
   },
   methods: {
     ...mapActions({
-      findMovieByTitle: 'movies/findMovieByTitle'
-    })
+      getMoviesListByTitle: 'movies/getMoviesListByTitle',
+      getMovieById: 'movies/getMovieById'
+    }),
+    beforeChange (imdbId) {
+      this.getMovieById(imdbId)
+    }
   }
 }
 </script>
