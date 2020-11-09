@@ -1,6 +1,6 @@
 <template>
   <div class="slide">
-    <div v-if="loaded" class="slide__content">
+    <div v-if="loaded" class="slide__content container">
       {{ title }}
       <img :src="poster" :alt="title">
       {{ director }}
@@ -34,3 +34,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.slide {
+  background: purple;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <VueSlickCarousel :arrows="true" :dots="true" @beforeChange="beforeChange">
+    <VueSlickCarousel :arrows="false" :dots="true" @beforeChange="beforeChange">
       <movie-slide
         v-for="slide in slides"
         :key="slide.imdbID"
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     beforeChange (oldSlideIndex, newSlideIndex) {
-      this.$emit('beforeChange', this.slides[newSlideIndex].imdbID)
+      this.$emit('beforeChange', this.slides[newSlideIndex])
     }
   }
 }

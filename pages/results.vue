@@ -2,7 +2,7 @@
   <div>
     <h1>Results</h1>
     <div v-if="resultsLoaded">
-      <!-- <pre>
+      <pre>
         {{ results }}
       </pre> -->
       <movie-slider :slides="results" @beforeChange="beforeChange"></movie-slider>
@@ -26,7 +26,7 @@ export default {
     const searchTitle = this.$route.query.title
     this.getMoviesListByTitle(searchTitle)
       .then(() => {
-        this.getMovieById(this.results[0].imdbID)
+        this.getMovieById(this.results[0])
       })
   },
   methods: {
@@ -35,6 +35,8 @@ export default {
       getMovieById: 'movies/getMovieById'
     }),
     beforeChange (imdbId) {
+      // eslint-disable-next-line no-console
+      console.log(imdbId)
       this.getMovieById(imdbId)
     }
   }
