@@ -6,9 +6,13 @@
       <button class="button search__box__submit" @click="search">
         Search
       </button>
-      <div v-if="error" class="error">
-        {{ error }}
-      </div>
+    </div>
+    <div class="search__error-wrapper">
+      <transition name="fade">
+        <div v-if="error" class="search__error">
+          {{ error }}
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -29,6 +33,7 @@ export default {
   methods: {
     search () {
       if (this.searchTermValid) {
+        this.error = null
         this.$router.push({ path: '/results', query: { title: this.title } })
       } else {
         this.error = 'Please type in at least 4 characters'
@@ -41,7 +46,9 @@ export default {
 <style lang="scss" scoped>
   .search {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: calc(100vh - #{$header-height});
     background-image: url('~assets/img/search-bg-2.jpg');
     background-size: cover;
@@ -50,8 +57,15 @@ export default {
     &__box {
       display: flex;
       align-items: center;
-      max-width: 720px;
+      flex-wrap: wrap;
+      width: 280px;
       margin: 0 auto;
+      padding: 0 1rem;
+
+      @media(min-width: $md) {
+        width: 420px;
+        flex-wrap: nowrap;
+      }
     }
 
     &__box__input {
@@ -62,10 +76,11 @@ export default {
       padding: .5rem 1rem;
       margin: 0;
       font-weight: 300;
-      width: 12rem;
+      max-width: 100%;
+      flex: 1;
 
       @media (min-width: $md) {
-        width: 16rem;
+        // width: 16rem;
       }
 
       &::placeholder {
@@ -75,6 +90,30 @@ export default {
 
     &__box__submit {
       height: 3rem;
+      margin-top: 1rem;
+      flex: 1;
+
+      @media (min-width: $md) {
+        margin-top: 0;
+      }
+    }
+
+    &__error-wrapper {
+      width: 280px;
+      height: 49px;
+      padding: 0 1rem;
+
+      @media(min-width: $md) {
+        width: 420px;
+      }
+    }
+
+    &__error {
+      background-color: $red;
+      color: $white;
+      padding: .5rem;
+      font-size: 0.875rem;
+      margin-top: 1rem;
     }
   }
 </style>
