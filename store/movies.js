@@ -2,7 +2,9 @@ import Vue from 'vue'
 
 export const state = () => ({
   results: null,
-  totalResults: null
+  totalResults: null,
+  responseReady: false,
+  error: null
 })
 
 export const getters = {
@@ -14,12 +16,24 @@ export const getters = {
   },
   resultsLoaded: (state) => {
     return state.results !== null
+  },
+  responseReady: (state) => {
+    return state.responseReady
+  },
+  error: (state) => {
+    return state.error
   }
 }
 
 export const mutations = {
   SET_TOTAL_RESULTS (state, payload) {
     state.totalResults = parseInt(payload)
+  },
+  SET_RESPONSE_READY (state, payload) {
+    state.responseReady = payload
+  },
+  SET_ERROR (state, payload) {
+    state.error = payload
   },
   SET_MOVIE_IDS (state, payload) {
     state.results = payload
@@ -31,12 +45,23 @@ export const mutations = {
       Year: payload.Year,
       Director: payload.Director,
       Poster: payload.Poster,
+      Plot: payload.Plot,
       Loaded: true
     })
+  },
+  RESET_STATE (state) {
+    state.results = null
+    state.totalResults = null
+    state.responseReady = false
+    state.error = null
   }
 }
 
 export const actions = {
+  resetState (context) {
+    context.commit('RESET_STATE')
+  },
+
   async getMoviesListByTitle (context, title) {
     const movies = await this.$axios.$get('/', {
       params: {
@@ -44,6 +69,12 @@ export const actions = {
         page: 1
       }
     })
+      .catch(() => {
+      // something bad happened to request, set error
+        const errorMsg = 'Request error, please try again later'
+        context.commit('SET_ERROR', errorMsg)
+        throw new Error(errorMsg)
+      })
 
     /**
       Since this endpoint does not provide Director,
@@ -51,10 +82,22 @@ export const actions = {
       of mixing information between two endpoints.
       Better to have single source of truth
     **/
-    const imdbIDs = movies.Search.map(movie => movie.imdbID)
 
-    context.commit('SET_MOVIE_IDS', imdbIDs)
-    context.commit('SET_TOTAL_RESULTS', movies.totalResults)
+    if (movies && movies.Response.toLowerCase() === 'true') {
+      // if response is good, add movies imdb id's to store results
+      const imdbIDs = movies.Search.map(movie => movie.imdbID)
+      context.commit('SET_RESPONSE_READY', true)
+      context.commit('SET_MOVIE_IDS', imdbIDs)
+      context.commit('SET_TOTAL_RESULTS', movies.totalResults)
+    } else if (movies && movies.Response.toLowerCase() === 'false') {
+      // if response is false, set no movies found error
+      context.commit('SET_RESPONSE_READY', true)
+      const errorMsg = `No movies found with search term ${title}`
+      context.commit('SET_ERROR', errorMsg)
+      throw new Error(errorMsg)
+    } else {
+
+    }
   },
 
   async getMovieById (context, id) {
@@ -63,7 +106,6 @@ export const actions = {
         i: id
       }
     })
-
     context.commit('SET_MOVIE_DATA', movie)
   }
 }

@@ -5,9 +5,17 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 
 export default {
-
+  mounted () {
+    this.resetState()
+  },
+  methods: {
+    ...mapActions({
+      resetState: 'movies/resetState'
+    })
+  }
 }
 </script>
 

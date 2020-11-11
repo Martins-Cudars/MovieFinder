@@ -1,7 +1,9 @@
 <template>
   <div>
     <site-header></site-header>
-    <Nuxt></Nuxt>
+    <main class="site-content">
+      <Nuxt></Nuxt>
+    </main>
   </div>
 </template>
 
@@ -14,3 +16,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.site-content {
+  min-height: calc(100vh - #{$header-height});
+}
+</style>

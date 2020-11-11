@@ -1,28 +1,35 @@
 <template>
   <article class="slide">
-    <div v-if="loaded" class="container slide__content">
-      <div class="slide__poster">
-        <img :src="poster" :alt="title">
+    <transition name="fade">
+      <div v-if="loaded" key="slide" class="container slide__content">
+        <div class="slide__poster">
+          <img :src="poster" :alt="title" width="300" height="435">
+        </div>
+        <div class="slide__info">
+          <h1 class="slide__title">
+            {{ title }} ({{ year }})
+          </h1>
+          <table class="slide__table">
+            <tbody>
+              <tr>
+                <td>Year:</td>
+                <td>{{ year }}</td>
+              </tr>
+              <tr>
+                <td>Director:</td>
+                <td>{{ director }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="slide__plot">
+            {{ plot }}
+          </div>
+        </div>
       </div>
-      <div class="slide__info">
-        <h1 class="slide__title">{{ title }} ({{ year }})</h1>
-        <table class="slide__table">
-          <tbody>
-            <tr>
-              <td>Year:</td>
-              <td>{{ year }}</td>
-            </tr>
-            <tr>
-              <td>Director:</td>
-              <td>{{ director }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div v-else key="loader" class="slide__loader">
+        <loader></loader>
       </div>
-    </div>
-    <div v-else class="slide__loader">
-      Loading
-    </div>
+    </transition>
   </article>
 </template>
 
@@ -48,6 +55,10 @@ export default {
     director: {
       type: String,
       default: null
+    },
+    plot: {
+      type: String,
+      default: null
     }
   }
 }
@@ -57,6 +68,12 @@ export default {
 .slide {
   display: flex;
   padding: 1rem 0;
+  height: 476px;
+  position: relative;
+
+  @media (min-width: $md) {
+    height: 476px;
+  }
 
   &:focus {
     outline: 0;
@@ -70,6 +87,7 @@ export default {
     @media (min-width: $md) {
       display: grid;
       grid-gap: 1rem;
+      height: 100%;
       grid-template-columns: 300px 1fr;
     }
   }
@@ -87,6 +105,7 @@ export default {
 
   &__info {
     padding: 1rem;
+    margin-top: 2rem;
   }
 
   &__title {
@@ -103,8 +122,24 @@ export default {
     }
   }
 
+  &__plot {
+    margin: 1rem 0;
+    font-size: .875rem;
+  }
+
   &__loader {
-    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 300px;
+
+    @media (min-width: $md) {
+      height: 476px;
+    }
   }
 }
 </style>

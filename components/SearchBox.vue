@@ -1,11 +1,14 @@
 <template>
-  <div class="search">
+  <div class="search" @keyup.enter="search">
     <!-- <text-input></text-input> -->
     <div class="search__box">
       <input v-model="title" type="text" class="search__box__input" placeholder="Type in movie title">
       <button class="button search__box__submit" @click="search">
         Search
       </button>
+      <div v-if="error" class="error">
+        {{ error }}
+      </div>
     </div>
   </div>
 </template>
@@ -14,13 +17,22 @@
 export default {
   data () {
     return {
-      title: null,
+      title: '',
       error: null
+    }
+  },
+  computed: {
+    searchTermValid () {
+      return this.title.length > 3
     }
   },
   methods: {
     search () {
-      this.$router.push({ path: '/results', query: { title: this.title } })
+      if (this.searchTermValid) {
+        this.$router.push({ path: '/results', query: { title: this.title } })
+      } else {
+        this.error = 'Please type in at least 4 characters'
+      }
     }
   }
 }

@@ -8,6 +8,7 @@
         :year="slide.Year"
         :poster="slide.Poster"
         :director="slide.Director"
+        :plot="slide.Plot"
         :loaded="slide.Loaded"
         :settings="settings"
       ></movie-slide>
@@ -49,5 +50,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/ {
+  .slick-dots {
+    li {
+      button:before {
+        color: $primary;
+      }
+    }
+  }
+}
 
 </style>

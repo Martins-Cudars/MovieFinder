@@ -24,7 +24,7 @@
       align-items: center;
       padding: 10px 0;
       text-decoration: none;
-      color: inherit;
+      color: $primary;
     }
 
     img {
