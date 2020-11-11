@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="slider">
     <VueSlickCarousel :arrows="false" :dots="true" @beforeChange="beforeChange">
       <movie-slide
         v-for="slide in slides"
@@ -9,11 +9,9 @@
         :poster="slide.Poster"
         :director="slide.Director"
         :loaded="slide.Loaded"
+        :settings="settings"
       ></movie-slide>
     </VueSlickCarousel>
-    <pre>
-      {{ slides }}
-    </pre>
   </div>
 </template>
 
@@ -34,6 +32,14 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      settings: {
+        fade: true,
+        lazyLoad: true
+      }
+    }
+  },
   methods: {
     beforeChange (oldSlideIndex, newSlideIndex) {
       this.$emit('beforeChange', this.slides[newSlideIndex])
@@ -43,8 +49,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.slide {
-  background: orange;
-  color: blue;
-}
+
 </style>

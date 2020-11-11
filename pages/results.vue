@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <h1>Results</h1>
+  <div class="results">
     <div v-if="resultsLoaded">
-      <pre>
-        {{ results }}
-      </pre> -->
+      <results-box :total-results="totalResults"></results-box>
       <movie-slider :slides="results" @beforeChange="beforeChange"></movie-slider>
     </div>
-    <mf-loader v-else></mf-loader>
+    <mf-loader v-else style="results__loader"></mf-loader>
   </div>
 </template>
 
@@ -35,10 +32,16 @@ export default {
       getMovieById: 'movies/getMovieById'
     }),
     beforeChange (imdbId) {
-      // eslint-disable-next-line no-console
-      console.log(imdbId)
       this.getMovieById(imdbId)
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.results {
+  &__loader {
+    height: calc(100vh - #{$header-height});
+  }
+}
+</style>

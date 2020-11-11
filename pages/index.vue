@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>MovieFinder</h1>
     <search-box></search-box>
   </div>
 </template>

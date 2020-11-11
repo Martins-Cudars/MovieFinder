@@ -1,12 +1,13 @@
 import Vue from 'vue'
 
 export const state = () => ({
-  results: null
+  results: null,
+  totalResults: null
 })
 
 export const getters = {
   totalResults: (state) => {
-    return state.results.totalResults
+    return state.totalResults
   },
   results: (state) => {
     return state.results
@@ -17,6 +18,9 @@ export const getters = {
 }
 
 export const mutations = {
+  SET_TOTAL_RESULTS (state, payload) {
+    state.totalResults = parseInt(payload)
+  },
   SET_MOVIE_IDS (state, payload) {
     state.results = payload
   },
@@ -50,6 +54,7 @@ export const actions = {
     const imdbIDs = movies.Search.map(movie => movie.imdbID)
 
     context.commit('SET_MOVIE_IDS', imdbIDs)
+    context.commit('SET_TOTAL_RESULTS', movies.totalResults)
   },
 
   async getMovieById (context, id) {

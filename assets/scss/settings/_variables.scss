@@ -4,6 +4,15 @@
 
 $white: #fff;
 $black: #222;
+$red: #D7263D;
+$primary: $red;
+$primary-contrast: $white; // used when primary is background color
+
+/**
+** Breakpoints
+*/
+
+$md: 768px;
 
 
 /*
@@ -21,4 +30,11 @@ $body-text-color: $black;
 $body-font-family: 'Open Sans', sans-serif;
 $body-font-size: 16px;
 
+
+/* 
+** Header
+*/
+
+$header-bg-color: $white;
+$header-height: 80px;
 
